@@ -6,7 +6,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 
-#define SEALEVELPRESSURE_HPA (1013)//
+#define SEALEVELPRESSURE_HPA (1013)
 
 
 #include "Adafruit_SI1145.h"// Inladen van de adafruit bibliotheek
@@ -69,17 +69,6 @@ void setup()
 
 void loop(void)
 {
-
-  Serial.print("Vis: ");
-  Serial.println(uv.readVisible());
-  Serial.print("IR: ");
-  Serial.println(uv.readIR());
-  float UVindex = uv.readUV();
-  UVindex /= 100.0;
-  Serial.print("UV: ");
-  Serial.println(UVindex);
-
-
   Serial.print("Temperature = ");
   Serial.print(bme.readTemperature());
   Serial.println("*C");
@@ -96,6 +85,14 @@ void loop(void)
   Serial.print(bme.readHumidity());
   Serial.println("%");
 
+  Serial.print("Vis: ");
+  Serial.println(uv.readVisible());
+  Serial.print("IR: ");
+  Serial.println(uv.readIR());
+  float UVindex = uv.readUV();
+  UVindex /= 100.0;
+  Serial.print("UV: ");
+  Serial.println(UVindex);
 
   Serial.println("Sending Data: ");
 
@@ -113,11 +110,12 @@ void loop(void)
   Serial.print("pres: ");
   Serial.println(pres);
   var[2] = (pres >> 8) & 0xFF;
-  Serial.print(var[2], HEX);
-  Serial.println("-------------");
   var[3] = pres & 0xFF;
-  Serial.print(var[3], HEX);
-  Serial.println("-------------");
+
+  int hum = (bme.readHumidity());
+  Serial.print("hum: ");
+  Serial.println(hum);
+  var[4] = hum;
 
   // First, stop listening so we can talk.
   radio.stopListening();
