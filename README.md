@@ -1,2 +1,2 @@
 # GIP
-transmitter and receiver with the NRF24l01 for a weatherstation.
+Dit is de code dat we gaan gebruiken om gegevens te verzenden en ontvangen tussen 2 arduino UNO's.
