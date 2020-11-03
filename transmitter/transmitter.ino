@@ -63,7 +63,7 @@ void setup()
   radio.openWritingPipe(address);
   //radio.openReadingPipe(1, pipes[1]);
   radio.setPALevel(RF24_PA_MIN);
-  
+
 
 }
 
@@ -100,11 +100,7 @@ void loop(void)
   Serial.print("temp: ");
   Serial.println(temp);
   var[0] = (temp >> 8) & 0xFF;
-  Serial.print(var[0], HEX);
-  Serial.println("-------------");
   var[1] = temp & 0xFF;
-  Serial.print(var[1], HEX);
-  Serial.println("-------------");
 
   int pres = (bme.readPressure() / 100.0F) * 10;
   Serial.print("pres: ");
@@ -116,6 +112,24 @@ void loop(void)
   Serial.print("hum: ");
   Serial.println(hum);
   var[4] = hum;
+
+  int IR = (uv.readVisible()) * 100;
+  Serial.print("IR:  ");
+  Serial.println(IR);
+  var[5] = (IR >> 8) & 0xFF;
+  var[6] = IR & 0xFF;
+
+  int IRindex = (uv.readIR()) * 100;
+  Serial.print("IR:  ");
+  Serial.println(IR);
+  var[5] = (IRindex >> 8) & 0xFF;
+  var[6] = IRindex & 0xFF;
+
+  int UV = (UVindex) * 100;
+  Serial.print("UV-index: ");
+  Serial.println(UV);
+  var[7] = (UV >> 8) & 0xFF;
+  var[8] = UV & 0xFF;
 
   // First, stop listening so we can talk.
   radio.stopListening();

@@ -20,22 +20,33 @@ void loop() {
   if (radio.available()) {
 
     radio.read(&var, sizeof(var));
-    int val = (var[0] << 8) & 0xFF00;
-    // Serial.println(val, HEX);
-    val = val | var[1];
-    //Serial.println(val, DEC);
-    //Serial.print("var0 ");
-    // Serial.println(var[0], HEX);
-    // Serial.print("var1 ");
-    // Serial.println(var[1], HEX);
-
+    
+    int temp = (var[0] << 8) & 0xFF00;
+    temp = temp | var[1];
     int pres = (var[2] << 8) & 0xFF00;
     pres = pres | var[3];
-
-    float inf = val / 100.00;
+    int hum = var[4];
+    int IR = (var[5] << 8) & 0xFF00;
+    IR = IR | var[6];
+    int UVindex = (var[7] << 8) & 0xFF00;
+    UVindex = UVindex | var[8];
+    
+    float tempPrint = temp / 100.00;
     float presPrint = pres /10.00;
-    Serial.println(inf);
+    float IRPrint = IR / 100.00;
+    float UVPrint = UVindex / 100.00;
+
+    Serial.print("Temperatuur: ");
+    Serial.println(tempPrint);
+    Serial.print("Luchtdruk: ");
     Serial.println(presPrint);
+    Serial.print("Luchtvochtigheid: ");
+    Serial.println(hum);
+    Serial.print("IR: ");
+    Serial.println(IRPrint);
+    Serial.print("UVindex: ");
+    Serial.println(UVPrint);
+    
   }
 
 }
