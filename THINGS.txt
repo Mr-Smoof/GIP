@@ -1,0 +1,3 @@
+DAVIS ANEMOMETER/WINDRICHTING
+
+WEBSITE: http://cactus.io/hookups/weather/anemometer/davis/hookup-arduino-to-davis-anemometer 
