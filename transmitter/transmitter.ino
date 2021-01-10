@@ -32,7 +32,7 @@ static char sendAlt[256];//hoogte
 */
 
 RF24 radio(9, 10);//CE, CSN
-const byte address[6] = "AB7DC";
+const byte address[6] = "7D2A69T420";
 //const uint64_t pipes[2] = {0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL};
 //char receive_payload[max_payload_size + 1];
 uint8_t var[32];
@@ -113,17 +113,18 @@ void loop(void)
   Serial.println(hum);
   var[4] = hum;
 
-  int IR = (uv.readVisible()) * 100;
+  int VIS = (uv.readVisible()) * 100;
+  Serial.print("VIS:  ");
+  Serial.println(VIS);
+  var[5] = (VIS >> 8) & 0xFF;
+  var[6] = VIS & 0xFF;
+
+
+  int IR = (uv.readIR()) * 100;
   Serial.print("IR:  ");
   Serial.println(IR);
   var[5] = (IR >> 8) & 0xFF;
   var[6] = IR & 0xFF;
-
-  int IRindex = (uv.readIR()) * 100;
-  Serial.print("IR:  ");
-  Serial.println(IR);
-  var[5] = (IRindex >> 8) & 0xFF;
-  var[6] = IRindex & 0xFF;
 
   int UV = (UVindex) * 100;
   Serial.print("UV-index: ");
