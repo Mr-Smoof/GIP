@@ -32,7 +32,7 @@ static char sendAlt[256];//hoogte
 */
 
 RF24 radio(9, 10);//CE, CSN
-const byte address[6] = "7D2A69T420";
+const byte address[6] = "AB7DC";
 //const uint64_t pipes[2] = {0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL};
 //char receive_payload[max_payload_size + 1];
 uint8_t var[32];
