@@ -9,7 +9,7 @@ void setup() {
 
 int windhaancode(){
   windrichting = analogRead(A3);
-  Serial.println(windrichting);
+  //Serial.println(windrichting);
   switch (windrichting) {
     case 780 ... 790:
       coordinaat = 1;
