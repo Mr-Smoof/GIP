@@ -59,7 +59,7 @@ void loop() {
   data[4] = outHum;           //Luchtvochtigheid wordt weergegeven in %
   data[5] = outTemp >> 8;   //outTemp eerste byte van de integer
   data[6] = outTemp;        //outTemp tweede byte van de integer
-  uint8_t regen = 0;//random(25, 27);
+  uint8_t regen = pluviometer();//random(25, 27);
   data[7] = regen; //regen
   data[8] = outPres >> 24;
   data[9] = outPres >> 16;
