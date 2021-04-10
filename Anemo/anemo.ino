@@ -1,30 +1,31 @@
-int freqPin = 8;
-int pulseHigh;
-int pulseLow;
-int pulseTotal;
-float frequency;
+const int RecordTime = 3; //Define Measuring Time (Seconds)
+const int SensorPin = 3;  //Define Interrupt Pin (2 or 3 @ Arduino Uno)
+
+int InterruptCounter;
+float WindSpeed;
 
 void setup()
 {
   Serial.begin(9600);
-  pinMode(freqPin, INPUT);
 }
 
-void loop()
-{
-  pulseHigh = pulseIn(freqPin, HIGH); //meet de tijd in microseconden dat het signaal hoog is
-  Serial.print("hoog: ");
-  Serial.println(pulseHigh);
-  
-  pulseLow = pulseIn(freqPin, LOW); //meet de tijd in microseconden dat het signaal laag is
-  Serial.print("laag: ");
-  Serial.println(pulseLow);
-  
-  pulseTotal = pulseHigh + pulseLow; //telt de 2 signalen op
-  Serial.print("totaal: ");
-  Serial.println(pulseTotal);
-  
-  frequency = 1000000/pulseTotal; //berekent de frequentie
-  Serial.println(frequency);
-  delay(1000);
+void loop() {
+  meassure();
+  Serial.print("Wind Speed: ");
+  Serial.print(WindSpeed);       //Speed in km/h
+  Serial.print(" km/h - ");
+  Serial.print(WindSpeed / 3.6); //Speed in m/s
+  Serial.println(" m/s");
+}
+
+void meassure() {
+  InterruptCounter = 0;
+  attachInterrupt(digitalPinToInterrupt(SensorPin), countup, RISING);
+  delay(1000 * RecordTime);
+  detachInterrupt(digitalPinToInterrupt(SensorPin));
+  WindSpeed = (float)InterruptCounter / (float)RecordTime * 2.4;
+}
+
+void countup() {
+  InterruptCounter++;
 }
