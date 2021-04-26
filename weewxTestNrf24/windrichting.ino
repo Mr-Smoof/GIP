@@ -1,3 +1,4 @@
+//#define DEBUG
 uint8_t coordinaat;
 //Declaraties windhaan
 const byte windhaan = A3;
@@ -6,10 +7,10 @@ uint8_t windhaancode() {
 
   unsigned int windrichting = analogRead(windhaan);
   //Serial.println(windrichting);
-#ifdef DEBUG
+/*#ifdef DEBUG
   Serial.print("windrichting: ");
   Serial.println(windrichting, DEC);
-#endif
+#endif*/
   switch (windrichting) {
     case 742 ... 792:       //Noorden
       coordinaat = 8;
@@ -39,9 +40,9 @@ uint8_t windhaancode() {
       coordinaat = 0;
       break;
   }
-#ifdef DEBUG
+/*#ifdef DEBUG
   Serial.print("coordinaat: ");
   Serial.println(coordinaat, DEC);
-#endif
+#endif*/
   return coordinaat;
 }
