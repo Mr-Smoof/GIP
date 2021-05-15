@@ -1,7 +1,7 @@
 //#define DEBUG
 //#include <SPI.h>
 #include "RF24.h"
-
+#include "RTClib.h"
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
@@ -9,15 +9,15 @@
 #define SEALEVELPRESSURE_HPA (1013)
 
 #include "Adafruit_SI1145.h"// Inladen van de adafruit bibliotheek
-
 Adafruit_BME280 bme;
 Adafruit_SI1145 uv = Adafruit_SI1145();
 RF24 radio(9, 10);//CE, CSN
 char data[32];
+RTC_Millis rtc; //software RTC time
 
 void setup() {
   Serial.begin(9600);
-
+  rtc.begin(DateTime(__DATE__, __TIME__)); //start RTC
   //Serial.println("Adafruit BME280 test");
   if (!bme.begin(0x76))
   {
@@ -75,11 +75,11 @@ void loop() {
   //Serial.print("Eind: ");
   //Serial.println(millis()-start);
   delay(1000);
-  #ifdef DEBUG
+#ifdef DEBUG
   Serial.print("$,WindDir=");
   Serial.print(winddirection, DEC);
   Serial.print(",WindSpeed=");
-  Serial.print(windspeed/10, 1); //0.0
+  Serial.print(windspeed / 10, 1); //0.0
   Serial.print(",Humidity=");
   Serial.print(outHum, 1); //46.5
   Serial.print(",Temp=");
@@ -87,7 +87,7 @@ void loop() {
   Serial.print(",Rain=0.00,Pressure=");
   Serial.print(outPres, 2); //1003.94
   Serial.print(",DewPoint=17.04,Light=");
-  Serial.print(UVindex/100.0,1);//1.43
+  Serial.print(UVindex / 100.0, 1); //1.43
   Serial.println(",Latitude=0.000000,Longitude=0.000000,Altitude=0.00,Satellites=0,FixDate=00/00/2000,FixTime=00:00:00,Battery=3.94,#");
-  #endif
+#endif
 }
