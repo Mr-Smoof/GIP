@@ -1,29 +1,21 @@
-#define DEBUG
-#define RainPin 2                         // The Rain input is connected to digital pin 2 on the arduino
-
-bool Tip = false;             // one of the two positions of tipping-bucket
+//#define DEBUG
 const float bucketAmount = 0.2794;   // mm equivalent of ml to trip tipping-bucket
-float rain = 0.0;
+float rain = 0.00;
+unsigned int InterruptCount = 0;
 
 unsigned int pluviometer()
 {
-  DateTime now = rtc.now();
-  if ((Tip == false) && (digitalRead(RainPin) == HIGH))
-  {
-    Tip = true;
-    rain += bucketAmount;        // update the rain
+  //detachInterrupt(digitalPinToInterrupt(RainPin));
+  rain = (float)InterruptCount * (float)bucketAmount;
+  InterruptCount = 0;
 #ifdef DEBUG
-    Serial.print(rain, 4);
-    Serial.println(" mm");
+  Serial.print(rain, 4);
+  Serial.println(" mm");
 #endif
-  }
-  else if ((Tip == true) && (digitalRead(RainPin) == LOW))
-  {
-    Tip = false;
-  }
-  else if (now.hour() == 0)
-  {
-    rain = 0;
-  }
+
   return rain;
+}
+void count()
+{
+  InterruptCount++;
 }
